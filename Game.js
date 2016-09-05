@@ -4,13 +4,14 @@ gameover = null;
 var gameStart = function () {
   game = new Game();
   main.canvas.addEventListener("mousedown", main.cursor.onMouseDownGame);
-  game.timerID = setInterval('game.update()', 16.6666666);
+  game.drawCountDown();
 }
 
 var Game = function () {
   this.point = 0;
   this.missNum = 0;
-  this.pause = false;
+  this.pause = true;
+  this.startCount = 3;
 
   this.timerID = -1;
 
@@ -109,4 +110,37 @@ Game.prototype.drawPause = function () {
   main.ctx.fillStyle = "rgb(255, 255, 255)";
   main.ctx.textAlign = "center";
   main.ctx.fillText("PAUSE", main.canvas.width / 2, main.canvas.height / 4);
+}
+
+Game.prototype.drawCountDown = function () {
+  this.draw();
+
+  main.ctx.font = "40px 'MSゴシック'";
+  main.ctx.textBaseline = "middle";
+  main.ctx.fillStyle = "rgb(255, 255, 255)";
+  main.ctx.textAlign = "center";
+  main.ctx.fillText(this.startCount, main.canvas.width / 2, main.canvas.height / 4);
+
+  this.startCount--;
+  if (this.startCount > 0) {
+    setTimeout("game.drawCountDown()", 1000);
+  } else {
+    setTimeout("game.drawGameStart()", 1000);
+  }
+
+}
+
+Game.prototype.drawGameStart = function () {
+  this.draw();
+
+  main.ctx.font = "40px 'MSゴシック'";
+  main.ctx.textBaseline = "middle";
+  main.ctx.fillStyle = "rgb(255, 255, 255)";
+  main.ctx.textAlign = "center";
+  main.ctx.fillText("START", main.canvas.width / 2, main.canvas.height / 4);
+
+  setTimeout( function () {
+    game.pause =false;
+    game.timerID = setInterval('game.update()', 16.6666666);
+  }, 1000);
 }
