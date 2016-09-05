@@ -14,8 +14,8 @@ BlockFactory.prototype.makeBlock = function () {
     if (this.count > 50) {
       if (this.level == 5) {
         this.level = 1;
-        this.speed += 1;
-        this.time /= 8;
+        this.speed += 0.5;
+        this.time /= 1.2;
         this.count = 0;
         this.flag = false;
         setTimeout("game.blockFactory.setFlag()", 2000);
